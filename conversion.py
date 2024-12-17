@@ -1,3 +1,4 @@
+# Modules
 import os, sys
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
@@ -23,6 +24,8 @@ class AESCryptor:
         cipher_data = cipher_data[16:]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         return unpad(cipher.decrypt(cipher_data), AES.block_size)
+
+
 
 class RSACryptor:
     def __init__(self):

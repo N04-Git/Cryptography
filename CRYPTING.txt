@@ -1,12 +1,16 @@
+
     - Symétrique
 AES
 DES
 Blowfish
 
+
     - Asymétrique
 RSA
 ECC
 
+
     - Hashing
 SHA
 MD5
+
