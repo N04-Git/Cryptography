@@ -21,14 +21,19 @@ _________________________________________________________________
 
 _________________________________________________________________
 |                       PACKETS - STRUCTURE
+|
 |   DATA_FLAG (bool) : 0=REMAINING DATA, 1=FINISHED DATA
 |   REQUEST_TYPE (str) : "PING"
+|   request_content (any) : "image_bytes"
+|   request_response (any) : "received_bytes"
 |
 |       packet {
 |               
 |               header: [<data_flag>, <request_type>]
+|
 |               body: {
-|                      request: <request_content>
+|                      request_content: <request_content>
+|                      request_response: <request_response>
 |               }
 |       }
 |
@@ -54,11 +59,11 @@ _________________________________________________________________
 _________________________________________________________________
 |                       TO DO
 |
-|       -Unify client/server to contruct packet / receive data >> using parent/child class
+|       - Handle ConnectionResetError / other errors
+|       - Customize UIw
 |       -Add function to scan available remote computers (specific ports)
+|       -Handle Multiple connections
 |       -GUI : Add toolbar to set options (scan default port, scan ip range, ...)
-|       -Link server/client to GUI
-|
 |
 |
 |

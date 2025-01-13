@@ -1,5 +1,5 @@
-import os, sys
 import hashlib
+import os
 
 def getHash(data, algorithm):
     """
@@ -11,5 +11,28 @@ def getHash(data, algorithm):
     hasher.update(data)
     return hasher.hexdigest()
 
-with open('tests\\file.pdf', 'rb') as f:
-    fdata = f.read()
+def getFileInfo(fpath, hashAlgorithm='sha-256'):
+    """
+    Returns 
+    -File name
+    -File path
+    -File size
+    -File hash
+    """
+    
+    with open(fpath, 'rb') as f:
+        data = f.read()
+    
+    # File name
+    n = os.path.basename(fpath)
+    
+    # File path
+    p = os.path.dirname(fpath)
+    
+    # File size
+    s = len(data)
+    
+    # File hash
+    h = getHash(data, algorithm=hashAlgorithm)
+    
+    return (n, p, s, h)

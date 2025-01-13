@@ -4,7 +4,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Util.Padding import pad, unpad
 from Crypto.PublicKey import RSA
-
+import base64
 # Classes
 class AESCryptor:
     def __init__(self):
@@ -24,7 +24,6 @@ class AESCryptor:
         cipher_data = cipher_data[16:]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         return unpad(cipher.decrypt(cipher_data), AES.block_size)
-
 
 
 class RSACryptor:
@@ -49,3 +48,31 @@ class RSACryptor:
         key = RSA.import_key(private_key)
         cipher = PKCS1_OAEP.new(key)
         return cipher.decrypt(data)
+
+def makeChunks(chunk_size, bytes) -> list:
+    # Split bytes into packets of 512 bytes
+    steps = len(bytes) // chunk_size
+    current = 0
+    
+    splitted = [None] * (steps + 1)
+    
+    c = 0
+    while c <= steps:
+        chunk = bytes[current:current+chunk_size]
+        splitted[c] = chunk
+        
+        # Update counter & current
+        c += 1
+        current += chunk_size
+    
+    return splitted
+
+def makeSerializable(toSerialize:bytes) -> str:
+    b = base64.b64encode(toSerialize).decode('utf-8')
+    print(f' {len(toSerialize)} >>> {len(b)}')
+    return b
+
+def unmakeSerializable(toDeserialize:str) -> bytes:
+    b = base64.b64decode(toDeserialize.encode('utf-8'))
+    print(f' {len(toDeserialize)} >>> {len(b)}')
+    return b
