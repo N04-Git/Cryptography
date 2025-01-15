@@ -59,10 +59,6 @@ _________________________________________________________________
 _________________________________________________________________
 |                       TO DO
 |
-|       - Handle ConnectionResetError / other errors
-|       - Customize UIw
-|       -Add function to scan available remote computers (specific ports)
-|       -Handle Multiple connections
 |       -GUI : Add toolbar to set options (scan default port, scan ip range, ...)
 |
 |

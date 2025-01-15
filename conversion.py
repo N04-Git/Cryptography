@@ -5,6 +5,11 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.Util.Padding import pad, unpad
 from Crypto.PublicKey import RSA
 import base64
+
+
+# Index is important
+encryptions = ['AES', 'DES', 'BLOWFISH', 'RSA', 'ECC']
+
 # Classes
 class AESCryptor:
     def __init__(self):
@@ -49,6 +54,7 @@ class RSACryptor:
         cipher = PKCS1_OAEP.new(key)
         return cipher.decrypt(data)
 
+
 def makeChunks(chunk_size, bytes) -> list:
     # Split bytes into packets of 512 bytes
     steps = len(bytes) // chunk_size
@@ -76,3 +82,69 @@ def unmakeSerializable(toDeserialize:str) -> bytes:
     b = base64.b64decode(toDeserialize.encode('utf-8'))
     print(f' {len(toDeserialize)} >>> {len(b)}')
     return b
+
+def encryptFile(fdata, encryption_index) -> list:
+    """
+    [0] => encrypted file bytes
+    [1] => (optional) key
+    """
+    
+    print(f"""
+____________________| Encrypting file |____________________  
+- File size : {len(fdata)}
+- Encryption Index : {encryption_index}
+- Encryption Algorithm ({len(str(encryptions[encryption_index]))}) : {encryptions[encryption_index]}
+""")
+    
+    # AES
+    if encryption_index == 0:
+        cryptor = AESCryptor()
+        return [cryptor.encrypt(fdata), cryptor.key]
+    
+    # DES
+    elif encryption_index == 1:
+        pass
+    
+    # BLOWFISH
+    elif encryption_index == 2:
+        pass
+    
+    # RSA
+    elif encryption_index == 3:
+        pass
+    
+    # ECC
+    elif encryption_index == 4:
+        pass
+
+    else:
+        print('Index out of range : ', encryption_index, encryptions)
+        exit(1)
+
+
+def decryptFile(fdata, encryption_index, key=None) -> bytes:
+    print(f"""
+____________________| Decrypting file |____________________  
+- File size : {len(fdata)}
+- Encryption Index : {encryption_index}
+- Encryption Algorithm ({len(str(encryptions[encryption_index]))}) : {encryptions[encryption_index]}
+- Key ({len(str(key))}) : {key}
+""")
+    if encryption_index == 0:
+        cryptor = AESCryptor()
+        return cryptor.decrypt(fdata, key)
+    
+    elif encryption_index == 1:
+        pass
+    
+    elif encryption_index == 2:
+        pass
+    
+    elif encryption_index == 3:
+        pass
+    
+    elif encryption_index == 4:
+        pass
+    
+    return b''
+
